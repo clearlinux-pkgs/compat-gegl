@@ -1,0 +1,1 @@
+--without-jasper --without-tiff --disable-docs --enable-introspection=no PYTHON=/usr/bin/python2 --without-vala
