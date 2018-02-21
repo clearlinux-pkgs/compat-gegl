@@ -4,7 +4,7 @@
 #
 Name     : compat-gegl
 Version  : 0.2.0
-Release  : 1
+Release  : 2
 URL      : https://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
 Source0  : https://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
 Summary  : Generic Graphics Library
@@ -89,7 +89,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1519230694
+export SOURCE_DATE_EPOCH=1519253348
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -115,7 +115,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1519230694
+export SOURCE_DATE_EPOCH=1519253348
 rm -rf %{buildroot}
 pushd ../buildavx2/
 %make_install
@@ -125,7 +125,6 @@ popd
 
 %files
 %defattr(-,root,root,-)
-%exclude /usr/lib64/haswell/pkgconfig/gegl-0.2.pc
 
 %files bin
 %defattr(-,root,root,-)
