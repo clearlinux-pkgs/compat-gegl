@@ -4,25 +4,30 @@
 #
 Name     : compat-gegl
 Version  : 0.2.0
-Release  : 7
+Release  : 8
 URL      : https://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
 Source0  : https://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
 Summary  : Generic Graphics Library
 Group    : Development/Tools
 License  : GPL-3.0 LGPL-3.0
-Requires: compat-gegl-bin
-Requires: compat-gegl-lib
-Requires: compat-gegl-license
-Requires: compat-gegl-locales
+Requires: compat-gegl-lib = %{version}-%{release}
+Requires: compat-gegl-license = %{version}-%{release}
+BuildRequires : automake
+BuildRequires : automake-dev
 BuildRequires : docbook-xml
 BuildRequires : gettext
+BuildRequires : gettext-bin
 BuildRequires : gobject-introspection-dev
 BuildRequires : graphviz
 BuildRequires : intltool
 BuildRequires : libjpeg-turbo-dev
+BuildRequires : libtool
+BuildRequires : libtool-dev
 BuildRequires : libxslt-bin
+BuildRequires : m4
 BuildRequires : perl
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(babl)
 BuildRequires : pkgconfig(cairo)
 BuildRequires : pkgconfig(exiv2)
@@ -37,6 +42,7 @@ BuildRequires : pkgconfig(pangocairo)
 BuildRequires : python
 BuildRequires : ruby-dev
 Patch1: cve-2012-4433.patch
+Patch2: 0001-Don-t-build-components-not-needed-for-compat.patch
 
 %description
 GEGL-0.2.0
@@ -44,21 +50,12 @@ Table of Contents
 JavaScript must be enabled in your browser to display the table of
 contents.
 
-%package bin
-Summary: bin components for the compat-gegl package.
-Group: Binaries
-Requires: compat-gegl-license
-
-%description bin
-bin components for the compat-gegl package.
-
-
 %package dev
 Summary: dev components for the compat-gegl package.
 Group: Development
-Requires: compat-gegl-lib
-Requires: compat-gegl-bin
-Provides: compat-gegl-devel
+Requires: compat-gegl-lib = %{version}-%{release}
+Provides: compat-gegl-devel = %{version}-%{release}
+Requires: compat-gegl = %{version}-%{release}
 
 %description dev
 dev components for the compat-gegl package.
@@ -67,7 +64,7 @@ dev components for the compat-gegl package.
 %package lib
 Summary: lib components for the compat-gegl package.
 Group: Libraries
-Requires: compat-gegl-license
+Requires: compat-gegl-license = %{version}-%{release}
 
 %description lib
 lib components for the compat-gegl package.
@@ -81,17 +78,10 @@ Group: Default
 license components for the compat-gegl package.
 
 
-%package locales
-Summary: locales components for the compat-gegl package.
-Group: Default
-
-%description locales
-locales components for the compat-gegl package.
-
-
 %prep
 %setup -q -n gegl-0.2.0
 %patch1 -p1
+%patch2 -p1
 pushd ..
 cp -a gegl-0.2.0 buildavx2
 popd
@@ -100,8 +90,9 @@ popd
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1532208948
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1568048846
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -109,43 +100,42 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-%configure --disable-static --without-jasper --without-tiff --disable-docs --enable-introspection=no PYTHON=/usr/bin/python2 --without-vala
+%reconfigure --disable-static --without-jasper --without-tiff --disable-docs --enable-introspection=no PYTHON=/usr/bin/python2 --without-vala
 make  %{?_smp_mflags}
-
 unset PKG_CONFIG_PATH
 pushd ../buildavx2/
 export CFLAGS="$CFLAGS -m64 -march=haswell"
 export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
-%configure --disable-static --without-jasper --without-tiff --disable-docs --enable-introspection=no PYTHON=/usr/bin/python2 --without-vala
+%reconfigure --disable-static --without-jasper --without-tiff --disable-docs --enable-introspection=no PYTHON=/usr/bin/python2 --without-vala
 make  %{?_smp_mflags}
 popd
+
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+cd ../buildavx2;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1532208948
+export SOURCE_DATE_EPOCH=1568048846
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/compat-gegl
-cp COPYING.LESSER %{buildroot}/usr/share/doc/compat-gegl/COPYING.LESSER
-cp COPYING %{buildroot}/usr/share/doc/compat-gegl/COPYING
+mkdir -p %{buildroot}/usr/share/package-licenses/compat-gegl
+cp COPYING %{buildroot}/usr/share/package-licenses/compat-gegl/COPYING
+cp COPYING.LESSER %{buildroot}/usr/share/package-licenses/compat-gegl/COPYING.LESSER
 pushd ../buildavx2/
 %make_install_avx2
 popd
 %make_install
-%find_lang gegl-0.2
+## Remove excluded files
+rm -f %{buildroot}/usr/bin/haswell/gegl
+rm -f %{buildroot}/usr/bin/gegl
 
 %files
 %defattr(-,root,root,-)
-
-%files bin
-%defattr(-,root,root,-)
-%exclude /usr/bin/gegl
-%exclude /usr/bin/haswell/gegl
 
 %files dev
 %defattr(-,root,root,-)
@@ -436,10 +426,6 @@ popd
 /usr/lib64/libgegl-0.2.so.0.199.1
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/compat-gegl/COPYING
-/usr/share/doc/compat-gegl/COPYING.LESSER
-
-%files locales -f gegl-0.2.lang
-%defattr(-,root,root,-)
-
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/compat-gegl/COPYING
+/usr/share/package-licenses/compat-gegl/COPYING.LESSER

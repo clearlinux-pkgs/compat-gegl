@@ -1,0 +1,46 @@
+From d20f9f0a2688bf3e06ef8fe610c9f386931a30ed Mon Sep 17 00:00:00 2001
+From: William Douglas <william.douglas@intel.com>
+Date: Mon, 9 Sep 2019 09:30:03 -0700
+Subject: [PATCH] Don't build components not needed for compat
+
+This side steps build errors encountered likely due to the age of the
+compat package.
+---
+ Makefile.am  | 7 +------
+ configure.ac | 2 +-
+ 2 files changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 5b78eaa..4daaaff 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -6,12 +6,7 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+ SUBDIRS=\
+ 	libs \
+ 	gegl \
+-	operations \
+-	bin \
+-	tools \
+-	examples \
+-	tests \
+-	po
++	operations
+ 
+ if ENABLE_DOCS
+ SUBDIRS+= docs
+diff --git a/configure.ac b/configure.ac
+index d18859b..7eac556 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -482,7 +482,7 @@ AC_CHECK_FUNCS(bind_textdomain_codeset,,
+ ]))
+ LIBS=$gegl_save_LIBS
+ 
+-IT_PROG_INTLTOOL(0.40.1)
++#IT_PROG_INTLTOOL(0.40.1)
+ AM_GLIB_GNU_GETTEXT
+ 
+ #########################
+-- 
+2.22.0
+

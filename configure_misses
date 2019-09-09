@@ -6,10 +6,10 @@ Configure miss: gtkdoc-rebase
 Configure miss: gtkdoc-mkpdf
 Configure miss: enscript
 Configure miss: asciidoc
-Configure miss: OPENEXR
+Configure miss: OpenEXR
 Configure miss: sdl-config
-Configure miss: OPENRAW
-Configure miss: AVFORMAT
+Configure miss: libopenraw-1.0 >= 0.0.5
+Configure miss: libavformat libavcodec
 Configure miss: linux/videodev.h usability
 Configure miss: linux/videodev.h presence
 Configure miss: linux/videodev.h
@@ -25,10 +25,10 @@ Configure miss: gtkdoc-rebase
 Configure miss: gtkdoc-mkpdf
 Configure miss: enscript
 Configure miss: asciidoc
-Configure miss: OPENEXR
+Configure miss: OpenEXR
 Configure miss: sdl-config
-Configure miss: OPENRAW
-Configure miss: AVFORMAT
+Configure miss: libopenraw-1.0 >= 0.0.5
+Configure miss: libavformat libavcodec
 Configure miss: linux/videodev.h usability
 Configure miss: linux/videodev.h presence
 Configure miss: linux/videodev.h
