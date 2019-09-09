@@ -4,7 +4,7 @@
 #
 Name     : compat-gegl
 Version  : 0.2.0
-Release  : 8
+Release  : 10
 URL      : https://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
 Source0  : https://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
 Summary  : Generic Graphics Library
@@ -41,6 +41,8 @@ BuildRequires : pkgconfig(pango)
 BuildRequires : pkgconfig(pangocairo)
 BuildRequires : python
 BuildRequires : ruby-dev
+# Suppress generation of debuginfo
+%global debug_package %{nil}
 Patch1: cve-2012-4433.patch
 Patch2: 0001-Don-t-build-components-not-needed-for-compat.patch
 
@@ -49,17 +51,6 @@ GEGL-0.2.0
 Table of Contents
 JavaScript must be enabled in your browser to display the table of
 contents.
-
-%package dev
-Summary: dev components for the compat-gegl package.
-Group: Development
-Requires: compat-gegl-lib = %{version}-%{release}
-Provides: compat-gegl-devel = %{version}-%{release}
-Requires: compat-gegl = %{version}-%{release}
-
-%description dev
-dev components for the compat-gegl package.
-
 
 %package lib
 Summary: lib components for the compat-gegl package.
@@ -91,7 +82,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568048846
+export SOURCE_DATE_EPOCH=1568049364
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -121,7 +112,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1568048846
+export SOURCE_DATE_EPOCH=1568049364
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/compat-gegl
 cp COPYING %{buildroot}/usr/share/package-licenses/compat-gegl/COPYING
@@ -131,295 +122,290 @@ pushd ../buildavx2/
 popd
 %make_install
 ## Remove excluded files
-rm -f %{buildroot}/usr/bin/haswell/gegl
-rm -f %{buildroot}/usr/bin/gegl
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-buffer-backend.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-buffer-iterator.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-buffer.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-chant.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-color.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-curve.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-enums.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-lookup.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-matrix.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-paramspecs.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-path.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-plugin.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-tile-backend.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-tile-source.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-tile.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-types.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-utils.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl-version.h
+rm -f %{buildroot}/usr/include/gegl-0.2/gegl.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/cl.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/cl_d3d10.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/cl_ext.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/cl_gl.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/cl_gl_ext.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/cl_platform.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/gegl-cl-color.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/gegl-cl-init.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/gegl-cl-types.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/gegl-cl.h
+rm -f %{buildroot}/usr/include/gegl-0.2/opencl/opencl.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-area-filter.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-composer.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-composer3.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-filter.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-meta.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-point-composer.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-point-composer3.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-point-filter.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-point-render.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-sink.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-source.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation-temporal.h
+rm -f %{buildroot}/usr/include/gegl-0.2/operation/gegl-operation.h
+rm -f %{buildroot}/usr/lib64/gegl-0.2/add.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/bilateral-filter.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/box-blur.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/brightness-contrast.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/buffer-sink.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/buffer-source.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/c2g.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/checkerboard.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/clear.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/clone.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/color-burn.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/color-dodge.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/color-temperature.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/color-to-alpha.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/color.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/contrast-curve.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/convert-format.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/crop.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/darken.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/difference-of-gaussians.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/difference.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/display.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/divide.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/dropshadow.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/dst-atop.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/dst-in.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/dst-out.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/dst-over.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/dst.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/edge-laplace.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/edge-sobel.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/exclusion.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/exp-combine.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/fattal02.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/fractal-explorer.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/gamma.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/gaussian-blur.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/gegl-buffer-load-op.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/gegl-buffer-save-op.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/grey.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/grid.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/hard-light.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/add.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/bilateral-filter.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/box-blur.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/brightness-contrast.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/buffer-sink.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/buffer-source.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/c2g.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/checkerboard.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/clear.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/clone.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/color-burn.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/color-dodge.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/color-temperature.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/color-to-alpha.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/color.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/contrast-curve.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/convert-format.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/crop.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/darken.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/difference-of-gaussians.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/difference.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/display.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/divide.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/dropshadow.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/dst-atop.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/dst-in.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/dst-out.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/dst-over.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/dst.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/edge-laplace.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/edge-sobel.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/exclusion.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/exp-combine.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/fattal02.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/fractal-explorer.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/gamma.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/gaussian-blur.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/gegl-buffer-load-op.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/gegl-buffer-save-op.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/grey.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/grid.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/hard-light.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/introspect.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/invert.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/jpg-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/jpg-save.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/layer.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/lens-distortion.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/levels.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/lighten.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/magick-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/mantiuk06.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/map-absolute.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/map-relative.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/matting-global.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/mblur.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/mirrors.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/mono-mixer.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/motion-blur.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/multiply.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/noise-reduction.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/noise.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/nop.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/opacity.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/open-buffer.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/over.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/overlay.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/path.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/pixbuf.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/pixelize.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/plus.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/png-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/png-save.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/polar-coordinates.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/posterize.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/ppm-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/ppm-save.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/raw-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/rectangle.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/reinhard05.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/remap.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/rgbe-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/rgbe-save.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/ripple.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/save-pixbuf.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/save.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/screen.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/snn-mean.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/soft-light.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/src-atop.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/src-in.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/src-out.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/src-over.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/src.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/stress.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/stretch-contrast.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/subtract.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/svg-huerotate.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/svg-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/svg-luminancetoalpha.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/svg-matrix.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/svg-multiply.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/svg-saturate.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/text.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/threshold.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/transformops.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/unsharp-mask.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/value-invert.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/vector-fill.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/vector-stroke.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/vignette.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/waves.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/weighted-blend.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/write-buffer.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/haswell/xor.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/introspect.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/invert.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/jpg-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/jpg-save.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/layer.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/lens-distortion.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/levels.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/lighten.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/magick-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/mantiuk06.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/map-absolute.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/map-relative.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/matting-global.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/mblur.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/mirrors.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/mono-mixer.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/motion-blur.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/multiply.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/noise-reduction.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/noise.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/nop.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/opacity.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/open-buffer.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/over.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/overlay.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/path.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/pixbuf.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/pixelize.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/plus.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/png-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/png-save.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/polar-coordinates.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/posterize.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/ppm-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/ppm-save.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/raw-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/rectangle.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/reinhard05.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/remap.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/rgbe-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/rgbe-save.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/ripple.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/save-pixbuf.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/save.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/screen.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/snn-mean.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/soft-light.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/src-atop.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/src-in.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/src-out.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/src-over.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/src.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/stress.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/stretch-contrast.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/subtract.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/svg-huerotate.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/svg-load.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/svg-luminancetoalpha.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/svg-matrix.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/svg-multiply.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/svg-saturate.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/text.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/threshold.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/transformops.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/unsharp-mask.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/value-invert.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/vector-fill.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/vector-stroke.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/vignette.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/waves.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/weighted-blend.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/write-buffer.so
+rm -f %{buildroot}/usr/lib64/gegl-0.2/xor.so
+rm -f %{buildroot}/usr/lib64/haswell/libgegl-0.2.so
+rm -f %{buildroot}/usr/lib64/libgegl-0.2.so
+rm -f %{buildroot}/usr/lib64/pkgconfig/gegl-0.2.pc
 
 %files
 %defattr(-,root,root,-)
 
-%files dev
-%defattr(-,root,root,-)
-/usr/include/gegl-0.2/gegl-buffer-backend.h
-/usr/include/gegl-0.2/gegl-buffer-iterator.h
-/usr/include/gegl-0.2/gegl-buffer.h
-/usr/include/gegl-0.2/gegl-chant.h
-/usr/include/gegl-0.2/gegl-color.h
-/usr/include/gegl-0.2/gegl-curve.h
-/usr/include/gegl-0.2/gegl-enums.h
-/usr/include/gegl-0.2/gegl-lookup.h
-/usr/include/gegl-0.2/gegl-matrix.h
-/usr/include/gegl-0.2/gegl-paramspecs.h
-/usr/include/gegl-0.2/gegl-path.h
-/usr/include/gegl-0.2/gegl-plugin.h
-/usr/include/gegl-0.2/gegl-tile-backend.h
-/usr/include/gegl-0.2/gegl-tile-source.h
-/usr/include/gegl-0.2/gegl-tile.h
-/usr/include/gegl-0.2/gegl-types.h
-/usr/include/gegl-0.2/gegl-utils.h
-/usr/include/gegl-0.2/gegl-version.h
-/usr/include/gegl-0.2/gegl.h
-/usr/include/gegl-0.2/opencl/cl.h
-/usr/include/gegl-0.2/opencl/cl_d3d10.h
-/usr/include/gegl-0.2/opencl/cl_ext.h
-/usr/include/gegl-0.2/opencl/cl_gl.h
-/usr/include/gegl-0.2/opencl/cl_gl_ext.h
-/usr/include/gegl-0.2/opencl/cl_platform.h
-/usr/include/gegl-0.2/opencl/gegl-cl-color.h
-/usr/include/gegl-0.2/opencl/gegl-cl-init.h
-/usr/include/gegl-0.2/opencl/gegl-cl-types.h
-/usr/include/gegl-0.2/opencl/gegl-cl.h
-/usr/include/gegl-0.2/opencl/opencl.h
-/usr/include/gegl-0.2/operation/gegl-operation-area-filter.h
-/usr/include/gegl-0.2/operation/gegl-operation-composer.h
-/usr/include/gegl-0.2/operation/gegl-operation-composer3.h
-/usr/include/gegl-0.2/operation/gegl-operation-filter.h
-/usr/include/gegl-0.2/operation/gegl-operation-meta.h
-/usr/include/gegl-0.2/operation/gegl-operation-point-composer.h
-/usr/include/gegl-0.2/operation/gegl-operation-point-composer3.h
-/usr/include/gegl-0.2/operation/gegl-operation-point-filter.h
-/usr/include/gegl-0.2/operation/gegl-operation-point-render.h
-/usr/include/gegl-0.2/operation/gegl-operation-sink.h
-/usr/include/gegl-0.2/operation/gegl-operation-source.h
-/usr/include/gegl-0.2/operation/gegl-operation-temporal.h
-/usr/include/gegl-0.2/operation/gegl-operation.h
-/usr/lib64/haswell/libgegl-0.2.so
-/usr/lib64/libgegl-0.2.so
-/usr/lib64/pkgconfig/gegl-0.2.pc
-
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/gegl-0.2/add.so
-/usr/lib64/gegl-0.2/bilateral-filter.so
-/usr/lib64/gegl-0.2/box-blur.so
-/usr/lib64/gegl-0.2/brightness-contrast.so
-/usr/lib64/gegl-0.2/buffer-sink.so
-/usr/lib64/gegl-0.2/buffer-source.so
-/usr/lib64/gegl-0.2/c2g.so
-/usr/lib64/gegl-0.2/checkerboard.so
-/usr/lib64/gegl-0.2/clear.so
-/usr/lib64/gegl-0.2/clone.so
-/usr/lib64/gegl-0.2/color-burn.so
-/usr/lib64/gegl-0.2/color-dodge.so
-/usr/lib64/gegl-0.2/color-temperature.so
-/usr/lib64/gegl-0.2/color-to-alpha.so
-/usr/lib64/gegl-0.2/color.so
-/usr/lib64/gegl-0.2/contrast-curve.so
-/usr/lib64/gegl-0.2/convert-format.so
-/usr/lib64/gegl-0.2/crop.so
-/usr/lib64/gegl-0.2/darken.so
-/usr/lib64/gegl-0.2/difference-of-gaussians.so
-/usr/lib64/gegl-0.2/difference.so
-/usr/lib64/gegl-0.2/display.so
-/usr/lib64/gegl-0.2/divide.so
-/usr/lib64/gegl-0.2/dropshadow.so
-/usr/lib64/gegl-0.2/dst-atop.so
-/usr/lib64/gegl-0.2/dst-in.so
-/usr/lib64/gegl-0.2/dst-out.so
-/usr/lib64/gegl-0.2/dst-over.so
-/usr/lib64/gegl-0.2/dst.so
-/usr/lib64/gegl-0.2/edge-laplace.so
-/usr/lib64/gegl-0.2/edge-sobel.so
-/usr/lib64/gegl-0.2/exclusion.so
-/usr/lib64/gegl-0.2/exp-combine.so
-/usr/lib64/gegl-0.2/fattal02.so
-/usr/lib64/gegl-0.2/fractal-explorer.so
-/usr/lib64/gegl-0.2/gamma.so
-/usr/lib64/gegl-0.2/gaussian-blur.so
-/usr/lib64/gegl-0.2/gegl-buffer-load-op.so
-/usr/lib64/gegl-0.2/gegl-buffer-save-op.so
-/usr/lib64/gegl-0.2/grey.so
-/usr/lib64/gegl-0.2/grid.so
-/usr/lib64/gegl-0.2/hard-light.so
-/usr/lib64/gegl-0.2/haswell/add.so
-/usr/lib64/gegl-0.2/haswell/bilateral-filter.so
-/usr/lib64/gegl-0.2/haswell/box-blur.so
-/usr/lib64/gegl-0.2/haswell/brightness-contrast.so
-/usr/lib64/gegl-0.2/haswell/buffer-sink.so
-/usr/lib64/gegl-0.2/haswell/buffer-source.so
-/usr/lib64/gegl-0.2/haswell/c2g.so
-/usr/lib64/gegl-0.2/haswell/checkerboard.so
-/usr/lib64/gegl-0.2/haswell/clear.so
-/usr/lib64/gegl-0.2/haswell/clone.so
-/usr/lib64/gegl-0.2/haswell/color-burn.so
-/usr/lib64/gegl-0.2/haswell/color-dodge.so
-/usr/lib64/gegl-0.2/haswell/color-temperature.so
-/usr/lib64/gegl-0.2/haswell/color-to-alpha.so
-/usr/lib64/gegl-0.2/haswell/color.so
-/usr/lib64/gegl-0.2/haswell/contrast-curve.so
-/usr/lib64/gegl-0.2/haswell/convert-format.so
-/usr/lib64/gegl-0.2/haswell/crop.so
-/usr/lib64/gegl-0.2/haswell/darken.so
-/usr/lib64/gegl-0.2/haswell/difference-of-gaussians.so
-/usr/lib64/gegl-0.2/haswell/difference.so
-/usr/lib64/gegl-0.2/haswell/display.so
-/usr/lib64/gegl-0.2/haswell/divide.so
-/usr/lib64/gegl-0.2/haswell/dropshadow.so
-/usr/lib64/gegl-0.2/haswell/dst-atop.so
-/usr/lib64/gegl-0.2/haswell/dst-in.so
-/usr/lib64/gegl-0.2/haswell/dst-out.so
-/usr/lib64/gegl-0.2/haswell/dst-over.so
-/usr/lib64/gegl-0.2/haswell/dst.so
-/usr/lib64/gegl-0.2/haswell/edge-laplace.so
-/usr/lib64/gegl-0.2/haswell/edge-sobel.so
-/usr/lib64/gegl-0.2/haswell/exclusion.so
-/usr/lib64/gegl-0.2/haswell/exp-combine.so
-/usr/lib64/gegl-0.2/haswell/fattal02.so
-/usr/lib64/gegl-0.2/haswell/fractal-explorer.so
-/usr/lib64/gegl-0.2/haswell/gamma.so
-/usr/lib64/gegl-0.2/haswell/gaussian-blur.so
-/usr/lib64/gegl-0.2/haswell/gegl-buffer-load-op.so
-/usr/lib64/gegl-0.2/haswell/gegl-buffer-save-op.so
-/usr/lib64/gegl-0.2/haswell/grey.so
-/usr/lib64/gegl-0.2/haswell/grid.so
-/usr/lib64/gegl-0.2/haswell/hard-light.so
-/usr/lib64/gegl-0.2/haswell/introspect.so
-/usr/lib64/gegl-0.2/haswell/invert.so
-/usr/lib64/gegl-0.2/haswell/jpg-load.so
-/usr/lib64/gegl-0.2/haswell/jpg-save.so
-/usr/lib64/gegl-0.2/haswell/layer.so
-/usr/lib64/gegl-0.2/haswell/lens-distortion.so
-/usr/lib64/gegl-0.2/haswell/levels.so
-/usr/lib64/gegl-0.2/haswell/lighten.so
-/usr/lib64/gegl-0.2/haswell/load.so
-/usr/lib64/gegl-0.2/haswell/magick-load.so
-/usr/lib64/gegl-0.2/haswell/mantiuk06.so
-/usr/lib64/gegl-0.2/haswell/map-absolute.so
-/usr/lib64/gegl-0.2/haswell/map-relative.so
-/usr/lib64/gegl-0.2/haswell/matting-global.so
-/usr/lib64/gegl-0.2/haswell/mblur.so
-/usr/lib64/gegl-0.2/haswell/mirrors.so
-/usr/lib64/gegl-0.2/haswell/mono-mixer.so
-/usr/lib64/gegl-0.2/haswell/motion-blur.so
-/usr/lib64/gegl-0.2/haswell/multiply.so
-/usr/lib64/gegl-0.2/haswell/noise-reduction.so
-/usr/lib64/gegl-0.2/haswell/noise.so
-/usr/lib64/gegl-0.2/haswell/nop.so
-/usr/lib64/gegl-0.2/haswell/opacity.so
-/usr/lib64/gegl-0.2/haswell/open-buffer.so
-/usr/lib64/gegl-0.2/haswell/over.so
-/usr/lib64/gegl-0.2/haswell/overlay.so
-/usr/lib64/gegl-0.2/haswell/path.so
-/usr/lib64/gegl-0.2/haswell/pixbuf.so
-/usr/lib64/gegl-0.2/haswell/pixelize.so
-/usr/lib64/gegl-0.2/haswell/plus.so
-/usr/lib64/gegl-0.2/haswell/png-load.so
-/usr/lib64/gegl-0.2/haswell/png-save.so
-/usr/lib64/gegl-0.2/haswell/polar-coordinates.so
-/usr/lib64/gegl-0.2/haswell/posterize.so
-/usr/lib64/gegl-0.2/haswell/ppm-load.so
-/usr/lib64/gegl-0.2/haswell/ppm-save.so
-/usr/lib64/gegl-0.2/haswell/raw-load.so
-/usr/lib64/gegl-0.2/haswell/rectangle.so
-/usr/lib64/gegl-0.2/haswell/reinhard05.so
-/usr/lib64/gegl-0.2/haswell/remap.so
-/usr/lib64/gegl-0.2/haswell/rgbe-load.so
-/usr/lib64/gegl-0.2/haswell/rgbe-save.so
-/usr/lib64/gegl-0.2/haswell/ripple.so
-/usr/lib64/gegl-0.2/haswell/save-pixbuf.so
-/usr/lib64/gegl-0.2/haswell/save.so
-/usr/lib64/gegl-0.2/haswell/screen.so
-/usr/lib64/gegl-0.2/haswell/snn-mean.so
-/usr/lib64/gegl-0.2/haswell/soft-light.so
-/usr/lib64/gegl-0.2/haswell/src-atop.so
-/usr/lib64/gegl-0.2/haswell/src-in.so
-/usr/lib64/gegl-0.2/haswell/src-out.so
-/usr/lib64/gegl-0.2/haswell/src-over.so
-/usr/lib64/gegl-0.2/haswell/src.so
-/usr/lib64/gegl-0.2/haswell/stress.so
-/usr/lib64/gegl-0.2/haswell/stretch-contrast.so
-/usr/lib64/gegl-0.2/haswell/subtract.so
-/usr/lib64/gegl-0.2/haswell/svg-huerotate.so
-/usr/lib64/gegl-0.2/haswell/svg-load.so
-/usr/lib64/gegl-0.2/haswell/svg-luminancetoalpha.so
-/usr/lib64/gegl-0.2/haswell/svg-matrix.so
-/usr/lib64/gegl-0.2/haswell/svg-multiply.so
-/usr/lib64/gegl-0.2/haswell/svg-saturate.so
-/usr/lib64/gegl-0.2/haswell/text.so
-/usr/lib64/gegl-0.2/haswell/threshold.so
-/usr/lib64/gegl-0.2/haswell/transformops.so
-/usr/lib64/gegl-0.2/haswell/unsharp-mask.so
-/usr/lib64/gegl-0.2/haswell/value-invert.so
-/usr/lib64/gegl-0.2/haswell/vector-fill.so
-/usr/lib64/gegl-0.2/haswell/vector-stroke.so
-/usr/lib64/gegl-0.2/haswell/vignette.so
-/usr/lib64/gegl-0.2/haswell/waves.so
-/usr/lib64/gegl-0.2/haswell/weighted-blend.so
-/usr/lib64/gegl-0.2/haswell/write-buffer.so
-/usr/lib64/gegl-0.2/haswell/xor.so
-/usr/lib64/gegl-0.2/introspect.so
-/usr/lib64/gegl-0.2/invert.so
-/usr/lib64/gegl-0.2/jpg-load.so
-/usr/lib64/gegl-0.2/jpg-save.so
-/usr/lib64/gegl-0.2/layer.so
-/usr/lib64/gegl-0.2/lens-distortion.so
-/usr/lib64/gegl-0.2/levels.so
-/usr/lib64/gegl-0.2/lighten.so
-/usr/lib64/gegl-0.2/load.so
-/usr/lib64/gegl-0.2/magick-load.so
-/usr/lib64/gegl-0.2/mantiuk06.so
-/usr/lib64/gegl-0.2/map-absolute.so
-/usr/lib64/gegl-0.2/map-relative.so
-/usr/lib64/gegl-0.2/matting-global.so
-/usr/lib64/gegl-0.2/mblur.so
-/usr/lib64/gegl-0.2/mirrors.so
-/usr/lib64/gegl-0.2/mono-mixer.so
-/usr/lib64/gegl-0.2/motion-blur.so
-/usr/lib64/gegl-0.2/multiply.so
-/usr/lib64/gegl-0.2/noise-reduction.so
-/usr/lib64/gegl-0.2/noise.so
-/usr/lib64/gegl-0.2/nop.so
-/usr/lib64/gegl-0.2/opacity.so
-/usr/lib64/gegl-0.2/open-buffer.so
-/usr/lib64/gegl-0.2/over.so
-/usr/lib64/gegl-0.2/overlay.so
-/usr/lib64/gegl-0.2/path.so
-/usr/lib64/gegl-0.2/pixbuf.so
-/usr/lib64/gegl-0.2/pixelize.so
-/usr/lib64/gegl-0.2/plus.so
-/usr/lib64/gegl-0.2/png-load.so
-/usr/lib64/gegl-0.2/png-save.so
-/usr/lib64/gegl-0.2/polar-coordinates.so
-/usr/lib64/gegl-0.2/posterize.so
-/usr/lib64/gegl-0.2/ppm-load.so
-/usr/lib64/gegl-0.2/ppm-save.so
-/usr/lib64/gegl-0.2/raw-load.so
-/usr/lib64/gegl-0.2/rectangle.so
-/usr/lib64/gegl-0.2/reinhard05.so
-/usr/lib64/gegl-0.2/remap.so
-/usr/lib64/gegl-0.2/rgbe-load.so
-/usr/lib64/gegl-0.2/rgbe-save.so
-/usr/lib64/gegl-0.2/ripple.so
-/usr/lib64/gegl-0.2/save-pixbuf.so
-/usr/lib64/gegl-0.2/save.so
-/usr/lib64/gegl-0.2/screen.so
-/usr/lib64/gegl-0.2/snn-mean.so
-/usr/lib64/gegl-0.2/soft-light.so
-/usr/lib64/gegl-0.2/src-atop.so
-/usr/lib64/gegl-0.2/src-in.so
-/usr/lib64/gegl-0.2/src-out.so
-/usr/lib64/gegl-0.2/src-over.so
-/usr/lib64/gegl-0.2/src.so
-/usr/lib64/gegl-0.2/stress.so
-/usr/lib64/gegl-0.2/stretch-contrast.so
-/usr/lib64/gegl-0.2/subtract.so
-/usr/lib64/gegl-0.2/svg-huerotate.so
-/usr/lib64/gegl-0.2/svg-load.so
-/usr/lib64/gegl-0.2/svg-luminancetoalpha.so
-/usr/lib64/gegl-0.2/svg-matrix.so
-/usr/lib64/gegl-0.2/svg-multiply.so
-/usr/lib64/gegl-0.2/svg-saturate.so
-/usr/lib64/gegl-0.2/text.so
-/usr/lib64/gegl-0.2/threshold.so
-/usr/lib64/gegl-0.2/transformops.so
-/usr/lib64/gegl-0.2/unsharp-mask.so
-/usr/lib64/gegl-0.2/value-invert.so
-/usr/lib64/gegl-0.2/vector-fill.so
-/usr/lib64/gegl-0.2/vector-stroke.so
-/usr/lib64/gegl-0.2/vignette.so
-/usr/lib64/gegl-0.2/waves.so
-/usr/lib64/gegl-0.2/weighted-blend.so
-/usr/lib64/gegl-0.2/write-buffer.so
-/usr/lib64/gegl-0.2/xor.so
 /usr/lib64/haswell/libgegl-0.2.so.0
 /usr/lib64/haswell/libgegl-0.2.so.0.199.1
 /usr/lib64/libgegl-0.2.so.0
