@@ -4,7 +4,7 @@
 #
 Name     : compat-gegl
 Version  : 0.2.0
-Release  : 11
+Release  : 12
 URL      : https://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
 Source0  : https://download.gimp.org/pub/gegl/0.2/gegl-0.2.0.tar.bz2
 Summary  : Generic Graphics Library
@@ -39,7 +39,7 @@ BuildRequires : pkgconfig(librsvg-2.0)
 BuildRequires : pkgconfig(lua)
 BuildRequires : pkgconfig(pango)
 BuildRequires : pkgconfig(pangocairo)
-BuildRequires : python
+BuildRequires : python3
 BuildRequires : ruby-dev
 # Suppress generation of debuginfo
 %global debug_package %{nil}
@@ -82,7 +82,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568049364
+export SOURCE_DATE_EPOCH=1570645664
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -91,14 +91,14 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-%reconfigure --disable-static --without-jasper --without-tiff --disable-docs --enable-introspection=no PYTHON=/usr/bin/python2 --without-vala
+%reconfigure --disable-static --without-jasper --without-tiff --disable-docs --enable-introspection=no PYTHON=/usr/bin/python3 --without-vala
 make  %{?_smp_mflags}
 unset PKG_CONFIG_PATH
 pushd ../buildavx2/
 export CFLAGS="$CFLAGS -m64 -march=haswell"
 export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
-%reconfigure --disable-static --without-jasper --without-tiff --disable-docs --enable-introspection=no PYTHON=/usr/bin/python2 --without-vala
+%reconfigure --disable-static --without-jasper --without-tiff --disable-docs --enable-introspection=no PYTHON=/usr/bin/python3 --without-vala
 make  %{?_smp_mflags}
 popd
 
@@ -112,7 +112,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1568049364
+export SOURCE_DATE_EPOCH=1570645664
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/compat-gegl
 cp COPYING %{buildroot}/usr/share/package-licenses/compat-gegl/COPYING
